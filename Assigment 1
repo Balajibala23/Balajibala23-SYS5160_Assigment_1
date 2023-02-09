@@ -1,0 +1,81 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def simulate_system(h, t_end, s1_0, s2_0, s3_0, u):
+    t = np.arange(0, t_end, h)
+    s1, s2, s3 = s1_0, s2_0, s3_0
+    s1_data, s2_data, s3_data, y_data = [], [], [], []
+
+    a = np.array([[0, 1, 0], [0, 0, 1], [-11, -17, -5]])
+    b = np.array([0, 0, 1])
+    c = np.array([13, 9, 0])
+    d = 0
+
+    for i in range(len(t)):
+      # u = t[i]  # change the input to ramp function
+      x_dot = a.dot(np.array([s1, s2, s3])) + b * u
+      s1 += x_dot[0] * h
+      s2 += x_dot[1] * h
+      s3 += x_dot[2] * h
+      y = c.dot(np.array([s1, s2, s3])) + d * u
+      
+      s1_data.append(s1)
+      s2_data.append(s2)
+      s3_data.append(s3)
+      y_data.append(y)
+
+    return s1_data, s2_data, s3_data, y_data
+
+def simulate_system2(h, t_end, s1_0, s2_0, s3_0, u):
+
+  t = np.arange(0, t_end, h)
+  s1, s2, s3 = s1_0, s2_0, s3_0
+  s1_data, s2_data, s3_data, y_data = [], [], [], []
+
+  a = np.array([[0, 1, 0], [0, 0, 1], [-11, -17, -5]])
+  b = np.array([0, 0, 1])
+  c = np.array([13, 9, 0])
+  d = 0
+
+  for i in range(len(t)):
+    u = t[i]  # change the input to ramp function
+    x_dot = a.dot(np.array([s1, s2, s3])) + b * u
+    s1 += x_dot[0] * h
+    s2 += x_dot[1] * h
+    s3 += x_dot[2] * h
+    y = c.dot(np.array([s1, s2, s3])) + d * u
+    
+    s1_data.append(s1)
+    s2_data.append(s2)
+    s3_data.append(s3)
+    y_data.append(y)
+
+  return s1_data,s2_data,s3_data,y_data
+def plot_system(h, t_end, s1_0, s2_0, s3_0, u):
+    s1_data, s2_data, s3_data, y_data = simulate_system(h, t_end, s1_0, s2_0, s3_0, u)
+    t = np.arange(0, t_end, h)
+    plt.plot(t, s1_data)
+    plt.plot(t, s2_data)
+    plt.plot(t, s3_data)
+    plt.plot(t, y_data)
+    plt.xlabel("Time",fontweight="bold")
+    plt.ylabel("Output",fontweight="bold")
+    plt.title("Response Graph for STEP Input",fontweight="bold",style="italic")
+    plt.text(5.5,1.2,"student number - 300307978",color="red")
+    plt.show()
+  
+def plot_system2(h, t_end, s1_0, s2_0, s3_0, u):
+    s1_data, s2_data, s3_data, y_data = simulate_system2(h, t_end, s1_0, s2_0, s3_0, u)
+    t = np.arange(0, t_end, h)
+    plt.plot(t, s1_data)
+    plt.plot(t, s2_data)
+    plt.plot(t, s3_data)
+    plt.plot(t, y_data)
+    plt.xlabel("Time",fontweight="bold")
+    plt.ylabel("Output",fontweight="bold")
+    plt.title("Response Graph for Ramp Input",fontweight="bold",style="italic")
+    plt.text(4,10,"student number - 300307978",color="red")
+    plt.show()
+
+plot_system(0.01,10,0.0,0.0,0.0,1.0)
+plot_system2(0.01,10,0.0,0.0,0.0,1.0)
